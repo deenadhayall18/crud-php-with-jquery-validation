@@ -4,8 +4,8 @@ if(empty($_SESSION['message'])){
 	session_destroy();
 	header("location:index.php");
 }
-
-$query = "select * from tbl_users";
+$username = $_SESSION['username'];
+$query = "select * from tbl_users where username = '$username'";
 $conn = mysqli_connect("localhost","root","rootpass","test");
 $db = mysqli_query($conn,$query);
 if(isset($_POST['Deleteid'])and!empty($_POST['Deleteid'])){
@@ -60,7 +60,6 @@ if(isset($_POST['Deleteid'])and!empty($_POST['Deleteid'])){
 
 		<form method="post" name="frmDash" id="frmDash">
 			<tr style="background-color:grey">
-				<td>Sl.no</td>
 				<td>Name</td>
 				<td>Username</td>
 				<td>Mobile Number</td>
@@ -68,18 +67,15 @@ if(isset($_POST['Deleteid'])and!empty($_POST['Deleteid'])){
 				<td>Dob</td>
 				<td>Action</td>
 			</tr>
-			<?php $i=0; while($dbvalues = mysqli_fetch_assoc($db)){ $i++?>
+			<?php while($dbvalues = mysqli_fetch_assoc($db)){?>
 			<tr>
-				<td width="2%"><?php echo $i;?></td>
 				<td width="10%"><?php echo $dbvalues['name'];?></td>
 				<td width="10%"><?php echo $dbvalues['username'];?></td>
 				<td width="15%"><?php echo $dbvalues['mobile'];?></td>
 				<td width="15%"><?php echo $dbvalues['email'];?></td>
 				<td width="20%"><?php echo $dbvalues['dob'];?></td>
 				<td width="40%">
-					<input type="hidden" name="Deleteid" id="Deleteid" value="<?php echo $dbvalues['id'];?>">
-					<a  href="<?php echo "edit.php?id='".$dbvalues['id']."'" ?>" >Edit</a> 					<br>
-					<button onclick="deleteid('<?php echo $dbvalues['id'];?>');">Delete</button>
+					<a  href="<?php echo "edit.php?id='".$dbvalues['id']."'" ?>" >Edit</a> 
 				</td>
 			</tr>
 			<?php }?>

@@ -8,13 +8,13 @@ if(isset($_POST['submit'])){
 	$username = trim(mysql_real_escape_string($_POST['username']));
 	$password = trim(mysql_real_escape_string($_POST['password']));
 	$query = "INSERT into tbl_users(name,mobile,email,dob,username,password)VALUES('$name','$moblie','$email', '$dob', '$username','$password')";
-	
 	$conn = mysqli_connect("localhost","root","rootpass","test");
 	$res = mysqli_query($conn,$query);
 	if(isset($res)) {
-		header("location:dashboard.php");
-		session_start();
-		$_SESSION['message'] = "Registered Successfully";
+		$msg = "Registered Successfully....You login to continue";
+		// header("location:dashboard.php");
+		// session_start();
+		// $_SESSION['message'] = "Registered Successfully";
 	}
 
 }
@@ -25,8 +25,8 @@ if(isset($_POST['submit'])){
 <head>
 	<style>
 	table {
-		background-color:grey;
-		/*background-color:#0077b0 ;*/
+		/*background-color:grey;*/
+		background-color:#0077b0 ;
 		text-align: center;
 		margin-left:200px;
 		font-family: arial, sans-serif;
@@ -43,6 +43,7 @@ if(isset($_POST['submit'])){
 	input[pattern]:invalid{color:#ff6c6c;font-weight:bold;font-size:16px; }
 	input[pattern]:valid{color:#000;font-weight:bold;font-size:16px; }
 	.error{color:darkred;font-weight:bold;}
+	.msg{color:green;font-weight:bold;text-align: center;font-size: 25px}
 </style>
 
 
@@ -51,7 +52,7 @@ if(isset($_POST['submit'])){
 	<div style="text-align: center">
 		<h1>REGISTER</h1>
 	</div>
-
+	<div class="msg"><?php echo (!empty($msg)?$msg:" "); ?> </div>
 </div>
 <br>
 <form name="frmReg" id="frmReg" method="post">

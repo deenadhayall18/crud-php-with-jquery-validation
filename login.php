@@ -7,8 +7,12 @@ if(isset($_POST['submit'])){
 	$conn = mysqli_connect("localhost","root","rootpass","test");
 	$res = mysqli_num_rows(mysqli_query($conn,$query));
 	if(!empty($res)&&($res==1)) {
-
-		header("location:dashboard.php");
+		session_start();
+		$_SESSION['username'] = $username;
+		header("location:tables.php");
+		
+	}else{
+		$msg  ='Invalid Login Credentials';
 	}
 
 }
@@ -23,6 +27,7 @@ if(isset($_POST['submit'])){
 	input{ background-color:lightgray; padding:.5em; font-size:14px;color:#000;font-weight:bold;}
 	input[pattern]:invalid{color:#ff6c6c;font-weight:bold }
 	.error{color:red; font-weight:bold;font-size:14px; }
+	.msg{color:red;font-size: 21px;font-weight:bold;text-align:center;}
 </style>
 
 <script src="./js/jquery-1.11.3.min.js" type="text/javascript"></script>
@@ -31,7 +36,7 @@ if(isset($_POST['submit'])){
 <body>
 	<div style="text-align: center">
 		<h1>Login</h1>
-		<!-- <span style="color:green;font-weight:bold;font-size:1.6em" id="hide"><?php echo (!empty($_SESSION['message'])?$$_SESSION['message']:" ") ?></span> -->
+		<span class="msg" ><?php echo (!empty($msg)?$msg:" ") ?></span> 
 	</div>
 	<br>
 	<form method="post" name="frmLogin"  id="frmLogin">
