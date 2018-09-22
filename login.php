@@ -6,11 +6,10 @@ if(isset($_POST['submit'])){
 	$query = "SELECT * FROM tbl_users where username = '".$username."' and password = '".$password."' ";
 	$conn = mysqli_connect("localhost","root","rootpass","test");
 	$res = mysqli_num_rows(mysqli_query($conn,$query));
-	if(!empty($res)&&($res==1)) {
-		session_start();
-		$_SESSION['username'] = $username;
+	if(!empty($res)) {
+		$_SESSION['message'] = $username;
 		header("location:tables.php");
-		
+		die;
 	}else{
 		$msg  ='Invalid Login Credentials';
 	}

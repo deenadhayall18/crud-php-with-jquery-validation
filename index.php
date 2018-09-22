@@ -7,16 +7,18 @@ if(isset($_POST['submit'])){
 	$dob= trim(mysql_real_escape_string($_POST['dob']));
 	$username = trim(mysql_real_escape_string($_POST['username']));
 	$password = trim(mysql_real_escape_string($_POST['password']));
-	$query = "INSERT into tbl_users(name,mobile,email,dob,username,password)VALUES('$name','$moblie','$email', '$dob', '$username','$password')";
 	$conn = mysqli_connect("localhost","root","rootpass","test");
-	$res = mysqli_query($conn,$query);
-	if(isset($res)) {
-		$msg = "Registered Successfully....You login to continue";
-		// header("location:dashboard.php");
-		// session_start();
-		// $_SESSION['message'] = "Registered Successfully";
+	$existquery = "Select * from tbl_users where username = '$username'";
+	$result = mysqli_num_rows(mysqli_query($conn,$existquery));
+	if(!empty($result)){
+		$msg = "User Already Exists..Kindly Login to Continue..";
+	}else{
+		$query = "INSERT into tbl_users(name,mobile,email,dob,username,password)VALUES('$name','$moblie','$email', '$dob', '$username','$password')";
+		$res = mysqli_query($conn,$query);
+		if(isset($res)) {
+			$msg = "Registered Successfully....You login to continue";
+		}
 	}
-
 }
 ?>
 
@@ -52,6 +54,7 @@ if(isset($_POST['submit'])){
 	<div style="text-align: center">
 		<h1>REGISTER</h1>
 	</div>
+	<div style="text-align: right;padding-right:210px"><a href="reglist.php">Registered Users List</a></div>
 	<div class="msg"><?php echo (!empty($msg)?$msg:" "); ?> </div>
 </div>
 <br>
